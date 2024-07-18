@@ -3,7 +3,7 @@ if SERVER then
 	resource.AddFile("materials/vgui/ttt/dynamic/roles/icon_baker.vmt")
 end
 
-roles.InitCustomTeam(TEAM_HORSEMEN, {
+roles.InitCustomTeam("Horsemen", {
 	icon = "vgui/ttt/dynamic/roles/icon_horseman",
 	color = Color(113, 113, 113, 255)
 })

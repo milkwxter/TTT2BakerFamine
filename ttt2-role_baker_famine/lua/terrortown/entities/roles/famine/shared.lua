@@ -3,11 +3,6 @@ if SERVER then
 	resource.AddFile("materials/vgui/ttt/dynamic/roles/icon_famine.vmt")
 end
 
-roles.InitCustomTeam(TEAM_HORSEMEN, {
-	icon = "vgui/ttt/dynamic/roles/icon_horseman",
-	color = Color(113, 113, 113, 255)
-})
-
 function ROLE:PreInitialize()
     self.color                      = Color(185, 163, 72, 255)
 
