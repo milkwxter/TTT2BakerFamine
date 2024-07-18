@@ -1,6 +1,6 @@
 if SERVER then
     AddCSLuaFile()
-	resource.AddWorkshop("3264814948")
+	--resource.AddWorkshop("")
 end
 
 DEFINE_BASECLASS("weapon_tttbase")
@@ -15,34 +15,27 @@ if CLIENT then
 
     SWEP.EquipMenuData = {
         type = "item_weapon",
-        desc = "Deploy this Armor Bag to armor up your teammates. Contains 3 armor plates to share!",
+        desc = "Bake bread to create a Famine. Crazy how that works.",
     }
 
-    SWEP.Icon = "vgui/ttt/icon_armor_bag"
+    SWEP.Icon = "vgui/ttt/icon_bread"
 end
 
 SWEP.Base = "weapon_tttbase"
 
-SWEP.ViewModel = "models/weapons/v_crowbar.mdl"
-SWEP.WorldModel = "models/props/cs_office/microwave.mdl"
+SWEP.ViewModel = "models/weapons/c_items/c_bread_cinnamon.mdl"
+SWEP.WorldModel = "models/weapons/c_items/c_bread_cinnamon.mdl"
 
-SWEP.Primary.ClipSize = -1
-SWEP.Primary.DefaultClip = -1
+SWEP.Primary.ClipSize = 10
+SWEP.Primary.DefaultClip = 10
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "none"
-SWEP.Primary.Delay = 5.0
-
-SWEP.Secondary.ClipSize = -1
-SWEP.Secondary.DefaultClip = -1
-SWEP.Secondary.Automatic = true
-SWEP.Secondary.Ammo = "none"
-SWEP.Secondary.Delay = 1.0
+SWEP.Primary.Delay = 3
 
 -- This is special equipment
 SWEP.Kind = WEAPON_EQUIP
-SWEP.CanBuy = { ROLE_DETECTIVE } -- only detectives can buy
+SWEP.CanBuy = { } -- only detectives can buy
 SWEP.LimitedStock = true -- only buyable once
-SWEP.WeaponID = AMMO_HEALTHSTATION
 
 SWEP.AllowDrop = false
 SWEP.NoSights = true
@@ -55,8 +48,11 @@ function SWEP:PrimaryAttack()
     self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
     if SERVER then
-        local health = ents.Create("ttt2_baker_bread")
-		health:ThrowEntity(self:GetOwner(), Angle(90, -90, 0))
+        local bread = ents.Create("baker_bread")
+
+        if bread:ThrowEntity(self:GetOwner(), Angle(90, -90, 0)) then
+            self:TakePrimaryAmmo(1)
+        end
     end
 end
 
