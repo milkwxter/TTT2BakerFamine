@@ -36,11 +36,11 @@ end
 if SERVER then
 	-- Give Loadout on respawn and rolechange
 	function ROLE:GiveRoleLoadout(ply, isRoleChange)
-    ply:GiveEquipmentWeapon("ttt2_baker_bread_spawner")
+        ply:GiveEquipmentWeapon("ttt2_baker_baking")
 	end
 
 	-- Remove Loadout on death and rolechange
 	function ROLE:RemoveRoleLoadout(ply, isRoleChange)
-    ply:StripWeapon("ttt2_baker_bread_spawner")
+        ply:StripWeapon("ttt2_baker_baking")
 	end
 end

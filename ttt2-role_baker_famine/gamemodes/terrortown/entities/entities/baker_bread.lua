@@ -11,13 +11,6 @@ end
 ENT.Base = "ttt_base_placeable"
 ENT.Model = "models/weapons/c_items/c_bread_cinnamon.mdl"
 
-ENT.CanHavePrints = true
-ENT.MaxStored = 1
-
-ENT.NextHeal = 0
-ENT.HealRate = 1
-ENT.HealFreq = 0.2
-
 ---
 -- @realm shared
 function ENT:SetupDataTables()
@@ -40,16 +33,14 @@ function ENT:Initialize()
     if SERVER then
         local phys = self:GetPhysicsObject()
         if IsValid(phys) then
-            phys:SetMass(200)
+            phys:SetMass(50)
         end
 
         self:SetUseType(SIMPLE_USE)
     end
-
-    self:SetHealth(100)
 end
 
-local soundHealing = Sound("plate_in.mp3")
+local soundBreadEat = Sound("bread_eat.mp3")
 
 if SERVER then
     ---
@@ -58,8 +49,9 @@ if SERVER then
     function ENT:Use(ply)
         if not IsValid(ply) or not ply:IsPlayer() or not ply:IsActive() then return end
 
-        self:EmitSound(soundHealing)
+        self:EmitSound(soundBreadEat)
         ply:SetHealth(ply:Health() + 50)
+        self:Remove()
     end
 else
     local TryT = LANG.TryTranslation
