@@ -1,6 +1,6 @@
 if SERVER then
 	AddCSLuaFile()
-	resource.AddFile("materials/vgui/ttt/dynamic/roles/icon_baker.vmt")
+	resource.AddFile("materials/vgui/ttt/dynamic/roles/icon_famine.vmt")
 end
 
 roles.InitCustomTeam(TEAM_HORSEMEN, {
@@ -9,9 +9,9 @@ roles.InitCustomTeam(TEAM_HORSEMEN, {
 })
 
 function ROLE:PreInitialize()
-    self.color                      = Color(161, 91, 35, 255)
+    self.color                      = Color(185, 163, 72, 255)
 
-    self.abbr                       = "baker"
+    self.abbr                       = "fam"
     self.surviveBonus               = 3
     self.score.killsMultiplier      = 2
     self.score.teamKillsMultiplier  = -8
@@ -21,6 +21,9 @@ function ROLE:PreInitialize()
     self.preventWin                 = false -- Can he win on his own? true means NO, false means YES
     self.unknownTeam                = false
 	self.isOmniscientRole = true
+	
+	-- role cant spawn naturally
+	self.notSelectable = true
 
     self.defaultTeam                = TEAM_HORSEMEN
 
@@ -36,11 +39,15 @@ end
 if SERVER then
 	-- Give Loadout on respawn and rolechange
 	function ROLE:GiveRoleLoadout(ply, isRoleChange)
-    ply:GiveEquipmentWeapon("ttt2_baker_bread_spawner")
+		-- add extra health
+		ply:SetHealth(200)
 	end
 
 	-- Remove Loadout on death and rolechange
 	function ROLE:RemoveRoleLoadout(ply, isRoleChange)
-    ply:StripWeapon("ttt2_baker_bread_spawner")
+		-- reduce health if more than 100
+		if ply:Health() > 100 then
+			ply:SetHealth(100)
+		end
 	end
 end
