@@ -36,6 +36,10 @@ if SERVER then
 	function ROLE:GiveRoleLoadout(ply, isRoleChange)
 		-- add extra health
 		ply:SetHealth(200)
+        -- save original player model
+		self.famineOriginalModel = ply:GetModel()
+        -- give new skeleton model
+		ply:SetModel( "models/player/skeleton.mdl" )
 	end
 
 	-- Remove Loadout on death and rolechange
@@ -44,5 +48,7 @@ if SERVER then
 		if ply:Health() > 100 then
 			ply:SetHealth(100)
 		end
+        -- give back original model
+		ply:SetModel( famineOriginalModel )
 	end
 end
