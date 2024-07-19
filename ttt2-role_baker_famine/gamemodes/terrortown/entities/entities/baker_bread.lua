@@ -40,7 +40,7 @@ function ENT:Initialize()
     end
 end
 
-local soundBreadEat = Sound("bread_eat.mp3")
+local soundBreadEat = Sound("eating_bread.wav")
 
 if SERVER then
     ---

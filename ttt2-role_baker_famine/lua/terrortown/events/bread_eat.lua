@@ -22,8 +22,10 @@ local function incBreadCounter()
 		for _, ply in ipairs( player.GetAll() ) do
 			-- check if player is valid
 			if not IsValid(ply) then return end
+			-- if so, update his role
 			if ply:GetSubRole() == ROLE_BAKER then
 				ply:SetRole(ROLE_FAMINE, TEAM_HORSEMEN)
+				SendFullStateUpdate()
 			end
 		end
 	end
