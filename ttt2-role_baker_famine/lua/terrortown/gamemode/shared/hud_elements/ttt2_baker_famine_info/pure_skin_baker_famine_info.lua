@@ -1,4 +1,3 @@
-
 local base = "pure_skin_element"
 
 DEFINE_BASECLASS(base)
@@ -12,7 +11,7 @@ if CLIENT then -- CLIENT
 		minsize = {w = 110, h = 40}
 	}
 
-	HUDELEMENT.baker_famine_icon = Material("vgui/ttt/icons/icon_eating.png")
+	HUDELEMENT.baker_icon = Material("vgui/ttt/dynamic/roles/icon_baker.vtf")
 
 	function HUDELEMENT:PreInitialize()
 		BaseClass.PreInitialize(self)
@@ -53,7 +52,7 @@ if CLIENT then -- CLIENT
 	function HUDELEMENT:ShouldDraw()
 		local c = LocalPlayer()
 
-		return (GetRoundState() == ROUND_ACTIVE and c:GetSubRole() == ROLE_BAKER and c:IsActive()) or HUDEditor.IsEditing
+		return (GetRoundState() == ROUND_ACTIVE and LocalPlayer():GetSubRole() == ROLE_BAKER and c:IsActive()) or HUDEditor.IsEditing
 	end
 	-- parameter overwrites end
 
@@ -69,7 +68,7 @@ if CLIENT then -- CLIENT
 		local color = nil
 		color = table.Copy(util.GetDefaultColor(self.basecolor))
 		color.a = 175
-		draw.FilteredShadowedTexture(x + 8 * self.scale, y + 5 * self.scale, 30 * self.scale, 30 * self.scale, self.baker_famine_icon, color.a, color, self.scale)
+		draw.FilteredShadowedTexture(x + 8 * self.scale, y + 5 * self.scale, 30 * self.scale, 30 * self.scale, self.baker_icon, color.a, color, self.scale)
 
 		local amnt_print = tostring(BREAD_DATA:GetEatenAmount()) .. " / " .. tostring(BREAD_DATA:GetAmountToFamine())
 		draw.AdvancedText(amnt_print, "PureSkinBar", x + 46 * self.scale, y + 9 * self.scale, color, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, true, self.scale)

@@ -13,14 +13,6 @@ ENT.Model = "models/weapons/c_items/c_bread_cinnamon.mdl"
 
 ---
 -- @realm shared
-function ENT:SetupDataTables()
-    BaseClass.SetupDataTables(self)
-
-    self:NetworkVar("Int", 0, "StoredHealth")
-end
-
----
--- @realm shared
 function ENT:Initialize()
     self:SetModel(self.Model)
 
@@ -103,8 +95,6 @@ else
 
         tData:SetTitle(TryT(ent.PrintName))
         tData:SetSubtitle("Press [E] to eat the bread.")
-
-        local hstation_charge = ent:GetStoredHealth() or 0
 
         tData:AddDescriptionLine("Bread will heal you, and save you from the Famine.")
     end)
