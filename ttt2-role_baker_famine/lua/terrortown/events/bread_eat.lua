@@ -20,10 +20,11 @@ local function incBreadCounter()
 	if(BREAD_DATA:GetEatenAmount() >= BREAD_DATA:GetAmountToFamine()) then
 		--iterate through players, find the baker
 		for _, ply in ipairs( player.GetAll() ) do
-		-- check if player is valid
-		if not IsValid(ply) then return end
-		if ply:GetSubRole() == ROLE_BAKER then
-			ply:SetRole(ROLE_FAMINE, TEAM_HORSEMEN)
+			-- check if player is valid
+			if not IsValid(ply) then return end
+			if ply:GetSubRole() == ROLE_BAKER then
+				ply:SetRole(ROLE_FAMINE, TEAM_HORSEMEN)
+			end
 		end
 	end
 end
