@@ -49,10 +49,14 @@ if SERVER then
     function ENT:Use(ply)
         if not IsValid(ply) or not ply:IsPlayer() or not ply:IsActive() then return end
         self:EmitSound(soundBreadEat)
-        ply:SetHealth(ply:Health() + 50)
+		hook.Run("EVENT_BREAD_CONSUME")
+		if ply:Health() > 50 then
+			ply:SetHealth(100)
+		else
+			ply:SetHealth(ply:Health() + 50)
+		end
         self:Remove()
 		
-		hook.Run("EVENT_BREAD_CONSUME")
     end
 else
     local TryT = LANG.TryTranslation

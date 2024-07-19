@@ -71,7 +71,7 @@ if CLIENT then -- CLIENT
 		color.a = 175
 		draw.FilteredShadowedTexture(x + 8 * self.scale, y + 5 * self.scale, 30 * self.scale, 30 * self.scale, self.baker_famine_icon, color.a, color, self.scale)
 
-		local amnt_print = tostring(BREAD_DATA:GetEatenAmount()) .. " / " .. tostring(BREAD_DATA:GetAmountToWin())
+		local amnt_print = tostring(BREAD_DATA:GetEatenAmount()) .. " / " .. tostring(BREAD_DATA:GetAmountToFamine())
 		draw.AdvancedText(amnt_print, "PureSkinBar", x + 46 * self.scale, y + 9 * self.scale, color, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, true, self.scale)
 
 		-- draw border and shadow

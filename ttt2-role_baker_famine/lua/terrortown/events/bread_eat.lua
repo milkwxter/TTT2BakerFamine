@@ -1,6 +1,6 @@
 BREAD_DATA = {}
 BREAD_DATA.amount_eaten = 0
-BREAD_DATA.amount_to_famine = 5
+BREAD_DATA.amount_to_famine = 2
 
 function BREAD_DATA:AddEaten()
 	self.amount_eaten = self.amount_eaten + 1
@@ -18,12 +18,18 @@ end
 local function incBreadCounter()
 	BREAD_DATA:AddEaten()
 	if(BREAD_DATA:GetEatenAmount() >= BREAD_DATA:GetAmountToFamine()) then
-		--START FAMINE CODE GOES HERE
-		if SERVER then
-			print("Start famine now!")
+		--iterate through players, find the baker
+		for _, ply in ipairs( player.GetAll() ) do
+		-- check if player is valid
+		if not IsValid(ply) then return end
+			if ply:GetRoleString() == "baker" then
+				ply:SetRole(ROLE_FAMINE)
+				SendFullStateUpdate()
+			end
 		end
 	end
 end
+
 --local function called in hook
 if SERVER then
     hook.Add("EVENT_BREAD_CONSUME", "ttt_increase_bread_counter", incBreadCounter)
