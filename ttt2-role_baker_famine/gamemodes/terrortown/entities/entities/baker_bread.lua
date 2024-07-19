@@ -69,7 +69,7 @@ else
 
     ---
     -- Hook that is called if a player uses their use key while focusing on the entity.
-    -- Early check if client can use the health station
+    -- Early check if client can use the bread
     -- @return bool True to prevent pickup
     -- @realm client
     function ENT:ClientUse()
@@ -80,7 +80,7 @@ else
         end
     end
 
-    -- handle looking at healthstation
+    -- handle looking at bread
     hook.Add("TTTRenderEntityInfo", "HUDDrawTargetIDBread", function(tData)
         local client = LocalPlayer()
         local ent = tData:GetEntity()
@@ -91,7 +91,7 @@ else
             or not client:Alive()
             or not IsValid(ent)
             or tData:GetEntityDistance() > 100
-            or ent:GetClass() ~= "ttt2_baker_bread"
+            or ent:GetClass() ~= "baker_bread"
         then
             return
         end

@@ -53,7 +53,7 @@ if CLIENT then -- CLIENT
 	function HUDELEMENT:ShouldDraw()
 		local c = LocalPlayer()
 
-		return (GetRoundState() == ROUND_ACTIVE and LocalPlayer():GetTeam() == TEAM_HORSEMEN and c:IsActive()) or HUDEditor.IsEditing
+		return (GetRoundState() == ROUND_ACTIVE and c:GetSubRole == ROLE_BAKER and c:IsActive()) or HUDEditor.IsEditing
 	end
 	-- parameter overwrites end
 

@@ -1,6 +1,6 @@
 BREAD_DATA = {}
 BREAD_DATA.amount_eaten = 0
-BREAD_DATA.amount_to_famine = 2
+BREAD_DATA.amount_to_famine = 3
 
 function BREAD_DATA:AddEaten()
 	self.amount_eaten = self.amount_eaten + 1
@@ -22,10 +22,8 @@ local function incBreadCounter()
 		for _, ply in ipairs( player.GetAll() ) do
 		-- check if player is valid
 		if not IsValid(ply) then return end
-			if ply:GetRoleString() == "baker" then
-				ply:SetRole(ROLE_FAMINE)
-				SendFullStateUpdate()
-			end
+		if ply:GetSubRole() == ROLE_BAKER then
+			ply:SetRole(ROLE_FAMINE, TEAM_HORSEMEN)
 		end
 	end
 end
