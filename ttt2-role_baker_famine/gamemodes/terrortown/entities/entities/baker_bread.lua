@@ -48,10 +48,11 @@ if SERVER then
     -- @realm server
     function ENT:Use(ply)
         if not IsValid(ply) or not ply:IsPlayer() or not ply:IsActive() then return end
-
         self:EmitSound(soundBreadEat)
         ply:SetHealth(ply:Health() + 50)
         self:Remove()
+		
+		hook.Run("EVENT_BREAD_CONSUME")
     end
 else
     local TryT = LANG.TryTranslation
