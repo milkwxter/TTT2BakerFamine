@@ -30,7 +30,7 @@ SWEP.Primary.ClipSize = 10
 SWEP.Primary.DefaultClip = 10
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "none"
-SWEP.Primary.Delay = 3
+SWEP.Primary.Delay = 1
 
 -- This is special equipment
 SWEP.Kind = WEAPON_EQUIP

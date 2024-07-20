@@ -11,6 +11,8 @@ end
 ENT.Base = "ttt_base_placeable"
 ENT.Model = "models/weapons/c_items/c_bread_cinnamon.mdl"
 
+local breadHealingAmount = 35
+
 ---
 -- @realm shared
 function ENT:Initialize()
@@ -39,16 +41,22 @@ if SERVER then
     -- @param Player ply
     -- @realm server
     function ENT:Use(ply)
+        -- make sure the guy using the bread exists
         if not IsValid(ply) or not ply:IsPlayer() or not ply:IsActive() then return end
+        -- make sound for feedback
         self:EmitSound(soundBreadEat)
+        -- run the bread hook
 		hook.Run("EVENT_BREAD_CONSUME")
-		if ply:Health() > 50 then
-			ply:SetHealth(100)
+        -- increase health of player
+		if ply:Health() >= (ply:GetMaxHealth() - breadHealingAmount) then
+			ply:SetHealth(ply:GetMaxHealth())
 		else
-			ply:SetHealth(ply:Health() + 50)
+			ply:SetHealth(ply:Health() + breadHealingAmount)
 		end
+        -- add well fed status
+        STATUS:AddStatus(ply, "ttt2_ate_bread", nil)
+        -- delete bread
         self:Remove()
-		
     end
 else
     local TryT = LANG.TryTranslation
