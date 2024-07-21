@@ -43,18 +43,31 @@ if SERVER then
     function ENT:Use(ply)
         -- make sure the guy using the bread exists
         if not IsValid(ply) or not ply:IsPlayer() or not ply:IsActive() then return end
+
         -- make sound for feedback
         self:EmitSound(soundBreadEat)
+
         -- run the bread hook
 		hook.Run("EVENT_BREAD_CONSUME")
+
         -- increase health of player
 		if ply:Health() >= (ply:GetMaxHealth() - breadHealingAmount) then
 			ply:SetHealth(ply:GetMaxHealth())
 		else
 			ply:SetHealth(ply:Health() + breadHealingAmount)
 		end
+
         -- add well fed status
         STATUS:AddStatus(ply, "ttt2_ate_bread", nil)
+
+        -- remove this player from the starving table
+        table.RemoveByValue(BREAD_DATA.starving_players, ply)
+        print(ply:Nick() .. " is no longer starving!")
+
+        -- epic debug
+        print("Table of starving players: ")
+        PrintTable( BREAD_DATA.starving_players )
+
         -- delete bread
         self:Remove()
     end

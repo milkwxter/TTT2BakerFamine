@@ -7,14 +7,19 @@ BREAD_DATA = {}
 BREAD_DATA.amount_eaten = 0
 BREAD_DATA.amount_to_famine = 3
 BREAD_DATA.famine_exists = false
+BREAD_DATA.starving_players = {}
 
 -- reset hooks at round end AND start
 hook.Add("TTTEndRound", "BakerEndRound", function()
 	BREAD_DATA.amount_eaten = 0
+	BREAD_DATA.starving_players = player.GetAll()
+	timer.Stop("ttt2_famine_starve_timer")
 end)
 
 hook.Add("TTTBeginRound", "BakerBeginRound", function()
     BREAD_DATA.amount_eaten = 0
+	BREAD_DATA.starving_players = player.GetAll()
+	timer.Stop("ttt2_famine_starve_timer")
 end)
 
 -- ---------------------------------------- --
@@ -101,12 +106,11 @@ local function starveCurrentPlayers()
 	if BREAD_DATA.famine_exists == false then return end
 
 	-- iterate through all players
-    for _, ply in ipairs(player.GetAll()) do
-		-- make sure we only starve living players
+    for _, ply in ipairs(BREAD_DATA.starving_players) do
+		-- make sure we only starve living and playing players
       	if not ply:Alive() or ply:IsSpec() then continue end
 	  	-- dont starve the horsemen lol
 	  	if ply:GetTeam() == TEAM_HORSEMEN then continue end
-      	-- if ply:HasEquipmentItem("player ate bread") then continue end
 
 		-- make that guy starve a little
     	ply:TakeDamage(5, game.GetWorld())
@@ -147,7 +151,6 @@ end
 -- function that increases eaten counter
 local function incBreadCounter()
 	-- increase amount eaten
-	print("add eaten")
 	BREAD_DATA:AddEaten()
 
 	--sync to client
@@ -155,6 +158,19 @@ local function incBreadCounter()
     net.WriteUInt(BREAD_DATA.amount_eaten, 16)
     net.Broadcast()
 
+	--iterate through players, find the famine
+	for _, ply in ipairs( player.GetAll() ) do
+		-- check if player is valid
+		if not IsValid(ply) then return end
+		-- if so, update his health
+		if ply:GetSubRole() == ROLE_FAMINE then
+			-- add extra health
+			ply:SetMaxHealth(ply:GetMaxHealth() + 25)
+			ply:SetHealth(ply:Health() + 25)
+		end
+	end
+
+	-- check if famine exists, and if so heal him too
 	if famine_exists then
 		--iterate through players, find the famine
 		for _, ply in ipairs( player.GetAll() ) do
