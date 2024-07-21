@@ -94,6 +94,25 @@ local function spawnBreadsAroundMap()
 	end
 end
 
+local function starveCurrentPlayers()
+	-- make sure round is active
+    if GetRoundState() ~= ROUND_ACTIVE then return end
+	-- make sure famine has spawned
+	if BREAD_DATA.famine_exists == false then return end
+
+	-- iterate through all players
+    for _, ply in ipairs(player.GetAll()) do
+		-- make sure we only starve living players
+      	if not ply:Alive() or ply:IsSpec() then continue end
+	  	-- dont starve the horsemen lol
+	  	if ply:GetTeam() == TEAM_HORSEMEN then continue end
+      	-- if ply:HasEquipmentItem("player ate bread") then continue end
+
+		-- make that guy starve a little
+    	ply:TakeDamage(5, game.GetWorld())
+    end
+end
+
 -- function that starts the famine
 local function startFamine()
 	--iterate through players, find the baker to transform him
@@ -118,8 +137,11 @@ local function startFamine()
 	
 	-- spawn extra bread
 	spawnBreadsAroundMap()
-	
-	-- Every player who is not "well fed" starts to take damage
+
+	-- start the starving timer
+	timer.Create("ttt2_famine_starve_timer", 5, 0, function()
+		starveCurrentPlayers()
+	end)
 end
 
 -- function that increases eaten counter
