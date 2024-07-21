@@ -38,11 +38,15 @@ if SERVER then
 		self.famineOriginalModel = ply:GetModel()
         -- give new skeleton model
 		ply:SetModel( "models/player/skeleton.mdl" )
+		-- add extra health
+		ply:SetMaxHealth(175 + (BREAD_DATA:GetEatenAmount() * 25))
+		ply:SetHealth(175 + (BREAD_DATA:GetEatenAmount() * 25))
 	end
 
 	-- Remove Loadout on death and rolechange
 	function ROLE:RemoveRoleLoadout(ply, isRoleChange)
 		-- reduce health if more than 100
+		ply:SetMaxHealth(100)
 		if ply:Health() > 100 then
 			ply:SetHealth(100)
 		end

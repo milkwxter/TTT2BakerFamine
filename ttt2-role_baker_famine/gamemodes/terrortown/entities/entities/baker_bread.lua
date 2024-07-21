@@ -20,7 +20,7 @@ function ENT:Initialize()
 
     BaseClass.Initialize(self)
 
-    local b = 32
+    local b = 8
 
     self:SetCollisionBounds(Vector(-b, -b, -b), Vector(b, b, b))
 
