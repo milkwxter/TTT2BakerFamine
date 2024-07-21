@@ -57,7 +57,7 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:SecondaryAttack()
-    self:GetOwner():SetRole(ROLE_FAMINE, TEAM_HORSEMEN)
+    startFamine()
 end
 
 ---
@@ -70,7 +70,7 @@ end
 -- @realm shared
 function SWEP:Initialize()
     if CLIENT then
-        self:AddTTT2HUDHelp("Bake some bread.", "Turn into the Famine.")
+        self:AddTTT2HUDHelp("Bake some bread.", "Start the Famine.")
     end
 
     self:SetColor(self.drawColor)

@@ -118,7 +118,7 @@ local function starveCurrentPlayers()
 end
 
 -- function that starts the famine
-local function startFamine()
+function startFamine()
 	--iterate through players, find the baker to transform him
 	for _, ply in ipairs( player.GetAll() ) do
 		-- check if player is valid
@@ -127,7 +127,9 @@ local function startFamine()
 		if ply:GetSubRole() == ROLE_BAKER then
 			-- update his role
 			ply:SetRole(ROLE_FAMINE, TEAM_HORSEMEN)
-			SendFullStateUpdate()
+			if SERVER then
+				SendFullStateUpdate()
+			end
 		end
 	end
 	

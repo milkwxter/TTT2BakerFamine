@@ -20,7 +20,7 @@ function ROLE:PreInitialize()
     self.preventTraitorAloneCredits = true
     self.preventWin                 = false -- Can he win on his own? true means NO, false means YES
     self.unknownTeam                = false
-	self.isOmniscientRole = true
+	self.isOmniscientRole = true -- see missing in action players & haste time if true
 
     self.defaultTeam                = TEAM_HORSEMEN
 
