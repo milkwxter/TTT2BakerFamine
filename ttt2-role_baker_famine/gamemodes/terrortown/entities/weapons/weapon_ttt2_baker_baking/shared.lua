@@ -56,10 +56,6 @@ function SWEP:PrimaryAttack()
     end
 end
 
-function SWEP:SecondaryAttack()
-    startFamine()
-end
-
 ---
 -- @ignore
 function SWEP:Reload()
