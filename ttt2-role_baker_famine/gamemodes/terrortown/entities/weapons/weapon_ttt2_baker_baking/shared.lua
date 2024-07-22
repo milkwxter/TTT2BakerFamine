@@ -66,7 +66,7 @@ end
 -- @realm shared
 function SWEP:Initialize()
     if CLIENT then
-        self:AddTTT2HUDHelp("Bake some bread.", "Start the Famine.")
+        self:AddTTT2HUDHelp("Bake some bread.")
     end
 
     self:SetColor(self.drawColor)
