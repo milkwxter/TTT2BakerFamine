@@ -60,6 +60,9 @@ end
 -- required for networking
 if SERVER then
     util.AddNetworkString("ttt2_role_baker_update")
+	net.Receive("ttt2_role_baker_force_start_famine", function()
+		startFamine()
+	end)
 end
 
 -- server syncing to client

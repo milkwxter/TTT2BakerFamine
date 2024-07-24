@@ -1,6 +1,6 @@
 if SERVER then
     AddCSLuaFile()
-	--resource.AddWorkshop("")
+	util.AddNetworkString("ttt2_role_baker_force_start_famine")
 end
 
 DEFINE_BASECLASS("weapon_tttbase")
@@ -40,8 +40,6 @@ SWEP.LimitedStock = true -- only buyable once
 SWEP.AllowDrop = false
 SWEP.NoSights = true
 
-SWEP.drawColor = Color(180, 180, 250, 255)
-
 ---
 -- @ignore
 function SWEP:PrimaryAttack()
@@ -56,6 +54,14 @@ function SWEP:PrimaryAttack()
     end
 end
 
+function SWEP:SecondaryAttack()
+	if CLIENT then
+		net.Start("ttt2_role_baker_force_start_famine")
+		net.SendToServer()
+	end
+end
+
+
 ---
 -- @ignore
 function SWEP:Reload()
@@ -66,26 +72,8 @@ end
 -- @realm shared
 function SWEP:Initialize()
     if CLIENT then
-        self:AddTTT2HUDHelp("Bake some bread.")
+        self:AddTTT2HUDHelp("Bake some bread.", "Force the famine to start.")
     end
-
-    self:SetColor(self.drawColor)
 
     return BaseClass.Initialize(self)
-end
-
-if CLIENT then
-    ---
-    -- @realm client
-    function SWEP:DrawWorldModel()
-        if IsValid(self:GetOwner()) then
-            return
-        end
-
-        self:DrawModel()
-    end
-
-    ---
-    -- @realm client
-    function SWEP:DrawWorldModelTranslucent() end
 end
