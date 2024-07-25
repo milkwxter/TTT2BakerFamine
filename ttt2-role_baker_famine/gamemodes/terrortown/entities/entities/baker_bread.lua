@@ -44,8 +44,8 @@ if SERVER then
         -- make sure the guy using the bread exists
         if not IsValid(ply) or not ply:IsPlayer() or not ply:IsActive() then return end
 
-        -- make sure the baker does not eat his own bread
-        if ply:GetSubRole() == ROLE_BAKER then return end
+        -- make sure the baker/famine does not eat his own bread
+        if ply:GetReaLTeam() == TEAM_HORSEMEN then return end
 
         -- make sound for feedback
         self:EmitSound(soundBreadEat)
