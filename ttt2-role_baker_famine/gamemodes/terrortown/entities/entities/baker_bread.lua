@@ -11,8 +11,6 @@ end
 ENT.Base = "ttt_base_placeable"
 ENT.Model = "models/weapons/c_items/c_bread_cinnamon.mdl"
 
-local breadHealingAmount = GetConVar("ttt2_bread_health"):GetInt()
-
 ---
 -- @realm shared
 function ENT:Initialize()
@@ -54,10 +52,10 @@ if SERVER then
 		hook.Run("EVENT_BREAD_CONSUME")
 
         -- increase health of player
-		if ply:Health() >= (ply:GetMaxHealth() - breadHealingAmount) then
+		if ply:Health() >= (ply:GetMaxHealth() - GetConVar("ttt2_bread_health"):GetInt()) then
 			ply:SetHealth(ply:GetMaxHealth())
 		else
-			ply:SetHealth(ply:Health() + breadHealingAmount)
+			ply:SetHealth(ply:Health() + GetConVar("ttt2_bread_health"):GetInt())
 		end
 
         -- add well fed status
@@ -70,7 +68,7 @@ if SERVER then
         -- epic debug
         print("Table of starving players: ")
         PrintTable( BREAD_DATA.starving_players )
-		print("Bread Cvar: " .. GetConVar("ttt2_role_baker_ammo"):GetInt())
+		print("Bread Cvar: " .. GetConVar("ttt2_bread_health"):GetInt())
         -- delete bread
         self:Remove()
     end
