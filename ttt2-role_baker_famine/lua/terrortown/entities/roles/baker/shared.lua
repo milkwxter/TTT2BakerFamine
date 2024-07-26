@@ -44,3 +44,33 @@ if SERVER then
         ply:StripWeapon("weapon_ttt2_baker_baking")
 	end
 end
+
+
+--Baker convars
+CreateConVar("ttt2_bread_health", 25, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+CreateConVar("ttt2_role_baker_bread_eaten_threshold", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+
+
+--adds convars to F1 Menu
+if CLIENT then
+    function ROLE:AddToSettingsMenu(parent)
+        local form = vgui.CreateTTT2Form(parent, "header_roles_additional")
+	
+		form:MakeSlider({
+            serverConvar = "ttt2_bread_health",
+            label = "Health gained from eating bread: ",
+            min = 1,
+            max = 100,
+            decimal = 0,
+        })
+   
+		form:MakeSlider({
+            serverConvar = "ttt2_role_baker_bread_eaten_threshold",
+            label = "Amount of bread eaten to start a famine: ",
+            min = 1,
+            max = 20,
+            decimal = 0,
+        })
+   
+   end
+end

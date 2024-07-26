@@ -55,26 +55,16 @@ if SERVER then
 	end
 end
 
---convars
-CreateConVar("ttt2_role_baker_ammo", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+--famine convars
 CreateConVar("ttt2_role_famine_bread_spawn_amount", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 CreateConVar("ttt2_role_famine_starting_health", 175, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
-CreateConVar("ttt2_role_famine_bread_eaten_threshold", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 CreateConVar("ttt2_role_famine_bread_health", 25, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
-CreateConVar("ttt2_bread_health", 25, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 
 --adds convars to F1 Menu
 if CLIENT then
     function ROLE:AddToSettingsMenu(parent)
         local form = vgui.CreateTTT2Form(parent, "header_roles_additional")
 		
-        form:MakeSlider({
-            serverConvar = "ttt2_role_baker_ammo",
-            label = "Amount of bread the baker gets: ",
-            min = 1,
-            max = 20,
-            decimal = 0,
-        })
 
 		form:MakeSlider({
             serverConvar = "ttt2_role_famine_bread_spawn_amount",
@@ -93,24 +83,8 @@ if CLIENT then
         })
 		
 		form:MakeSlider({
-            serverConvar = "ttt2_role_famine_bread_eaten_threshold",
-            label = "Amount of bread eaten to start a famine: ",
-            min = 1,
-            max = 20,
-            decimal = 0,
-        })
-		
-		form:MakeSlider({
-            serverConvar = "ttt2_bread_health",
-            label = "Health gained from eating bread: ",
-            min = 1,
-            max = 100,
-            decimal = 0,
-        })
-		
-		form:MakeSlider({
             serverConvar = "ttt2_role_famine_bread_health",
-            label = "Health the famine gains when someone else eats their bread: ",
+            label = "Health the famine gains when someone eats their bread: ",
             min = 1,
             max = 100,
             decimal = 0,
