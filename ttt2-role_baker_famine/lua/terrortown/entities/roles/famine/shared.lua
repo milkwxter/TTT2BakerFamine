@@ -39,8 +39,8 @@ if SERVER then
         -- give new skeleton model
 		ply:SetModel( "models/player/skeleton.mdl" )
 		-- add extra health
-		ply:SetMaxHealth(175 + (BREAD_DATA:GetEatenAmount() * 25))
-		ply:SetHealth(175 + (BREAD_DATA:GetEatenAmount() * 25))
+		ply:SetMaxHealth(GetConVar("ttt2_role_famine_starting_health"):GetInt() + (BREAD_DATA:GetEatenAmount() * GetConVar("ttt2_role_famine_bread_health"):GetInt()))
+		ply:SetHealth(GetConVar("ttt2_role_famine_starting_health"):GetInt() + (BREAD_DATA:GetEatenAmount() * GetConVar("ttt2_role_famine_bread_health"):GetInt()))
 	end
 
 	-- Remove Loadout on death and rolechange
@@ -53,4 +53,70 @@ if SERVER then
         -- give back original model
 		ply:SetModel( famineOriginalModel )
 	end
+end
+
+--convars
+CreateConVar("ttt2_role_baker_ammo", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+CreateConVar("ttt2_role_famine_bread_spawn_amount", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+CreateConVar("ttt2_role_famine_starting_health", 175, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+CreateConVar("ttt2_role_famine_bread_eaten_threshold", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+CreateConVar("ttt2_role_famine_bread_health", 25, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+CreateConVar("ttt2_bread_health", 25, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+
+--adds convars to F1 Menu
+if CLIENT then
+    function ROLE:AddToSettingsMenu(parent)
+        local form = vgui.CreateTTT2Form(parent, "header_roles_additional")
+		
+        form:MakeSlider({
+            serverConvar = "ttt2_role_baker_ammo",
+            label = "Amount of bread the baker gets: ",
+            min = 1,
+            max = 20,
+            decimal = 0,
+        })
+
+		form:MakeSlider({
+            serverConvar = "ttt2_role_famine_bread_spawn_amount",
+            label = "Amount of bread that naturally spawns around the map: ",
+            min = 5,
+            max = 100,
+            decimal = 0,
+        })
+		
+		form:MakeSlider({
+            serverConvar = "ttt2_role_famine_starting_health",
+            label = "Amount of health the famine starts with: ",
+            min = 100,
+            max = 300,
+            decimal = 0,
+        })
+		
+		form:MakeSlider({
+            serverConvar = "ttt2_role_famine_bread_eaten_threshold",
+            label = "Amount of bread eaten to start a famine: ",
+            min = 1,
+            max = 20,
+            decimal = 0,
+        })
+		
+		form:MakeSlider({
+            serverConvar = "ttt2_bread_health",
+            label = "Health gained from eating bread: ",
+            min = 1,
+            max = 100,
+            decimal = 0,
+        })
+		
+		form:MakeSlider({
+            serverConvar = "ttt2_role_famine_bread_health",
+            label = "Health the famine gains when someone else eats their bread: ",
+            min = 1,
+            max = 100,
+            decimal = 0,
+        })
+		
+		
+		
+    end
 end

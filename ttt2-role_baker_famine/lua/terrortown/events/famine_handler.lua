@@ -5,7 +5,7 @@
 -- ---------------------------------------- --
 BREAD_DATA = {}
 BREAD_DATA.amount_eaten = 0
-BREAD_DATA.amount_to_famine = 3
+BREAD_DATA.amount_to_famine = 5
 BREAD_DATA.famine_exists = false
 BREAD_DATA.starving_players = {}
 
@@ -13,12 +13,16 @@ BREAD_DATA.starving_players = {}
 hook.Add("TTTEndRound", "BakerEndRound", function()
 	BREAD_DATA.amount_eaten = 0
 	BREAD_DATA.starving_players = player.GetAll()
+	BREAD_DATA.famine_exists = false
+	BREAD_DATA.amount_to_famine = GetConVar("ttt2_role_famine_bread_eaten_threshold"):GetInt()
 	timer.Stop("ttt2_famine_starve_timer")
 end)
 
 hook.Add("TTTBeginRound", "BakerBeginRound", function()
     BREAD_DATA.amount_eaten = 0
 	BREAD_DATA.starving_players = player.GetAll()
+	BREAD_DATA.famine_exists = false
+	BREAD_DATA.amount_to_famine = GetConVar("ttt2_role_famine_bread_eaten_threshold"):GetInt()
 	timer.Stop("ttt2_famine_starve_timer")
 end)
 
@@ -69,6 +73,7 @@ end
 if CLIENT then
 	net.Receive("ttt2_role_baker_update", function()
 		BREAD_DATA.amount_eaten = net.ReadUInt(16)
+		BREAD_DATA.amount_to_famine = net.ReadUInt(16)
 	end)
 end
 
@@ -78,7 +83,7 @@ end
 
 local function spawnBreadsAroundMap()
 	-- limit by defined max and found items
-	local amount = math.min(#ents.FindByClass("item_*"), 10)
+	local amount = math.min(#ents.FindByClass("item_*"), GetConVar("ttt2_role_famine_bread_spawn_amount"):GetInt())
 
 	-- make sure more than 0 sodas can be spawned
 	if amount == 0 then return end
@@ -161,6 +166,8 @@ local function incBreadCounter()
 	--sync to client
     net.Start("ttt2_role_baker_update")
     net.WriteUInt(BREAD_DATA.amount_eaten, 16)
+	BREAD_DATA.amount_to_famine = GetConVar("ttt2_role_famine_bread_eaten_threshold"):GetInt()
+	net.WriteUInt(BREAD_DATA.amount_to_famine, 16)
     net.Broadcast()
 
 	--iterate through players, find the famine
@@ -170,8 +177,8 @@ local function incBreadCounter()
 		-- if so, update his health
 		if ply:GetSubRole() == ROLE_FAMINE then
 			-- add extra health
-			ply:SetMaxHealth(ply:GetMaxHealth() + 25)
-			ply:SetHealth(ply:Health() + 25)
+			ply:SetMaxHealth(ply:GetMaxHealth() + GetConVar("ttt2_role_famine_bread_health"):GetInt())
+			ply:SetHealth(ply:Health() + GetConVar("ttt2_role_famine_bread_health"):GetInt())
 		end
 	end
 
@@ -184,13 +191,14 @@ local function incBreadCounter()
 			-- if so, update his health
 			if ply:GetSubRole() == ROLE_FAMINE then
 				-- add extra health
-				ply:SetMaxHealth(ply:GetMaxHealth() + 25)
-				ply:SetHealth(ply:Health() + 25)
+				ply:SetMaxHealth(ply:GetMaxHealth() + GetConVar("ttt2_role_famine_bread_health"):GetInt())
+				ply:SetHealth(ply:Health() + GetConVar("ttt2_role_famine_bread_health"):GetInt())
 			end
 		end
 	end
 	
 	-- check if amount eaten causes a famine and no famine currently exists
+	print("Bread Eaten: " .. BREAD_DATA.amount_eaten)
 	if BREAD_DATA:GetEatenAmount() >= BREAD_DATA:GetAmountToFamine() and BREAD_DATA.famine_exists == false then
 		startFamine()
 	end
@@ -203,3 +211,4 @@ end
 if SERVER then
     hook.Add("EVENT_BREAD_CONSUME", "ttt_increase_bread_counter", incBreadCounter)
 end
+

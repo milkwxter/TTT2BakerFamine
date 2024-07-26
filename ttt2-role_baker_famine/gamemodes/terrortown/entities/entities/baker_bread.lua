@@ -11,7 +11,7 @@ end
 ENT.Base = "ttt_base_placeable"
 ENT.Model = "models/weapons/c_items/c_bread_cinnamon.mdl"
 
-local breadHealingAmount = 35
+local breadHealingAmount = GetConVar("ttt2_bread_health"):GetInt()
 
 ---
 -- @realm shared
@@ -45,7 +45,7 @@ if SERVER then
         if not IsValid(ply) or not ply:IsPlayer() or not ply:IsActive() then return end
 
         -- make sure the baker/famine does not eat his own bread
-        if ply:GetReaLTeam() == TEAM_HORSEMEN then return end
+        if ply:GetRealTeam() == TEAM_HORSEMEN then return end
 
         -- make sound for feedback
         self:EmitSound(soundBreadEat)
@@ -70,7 +70,7 @@ if SERVER then
         -- epic debug
         print("Table of starving players: ")
         PrintTable( BREAD_DATA.starving_players )
-
+		print("Bread Cvar: " .. GetConVar("ttt2_role_baker_ammo"):GetInt())
         -- delete bread
         self:Remove()
     end
