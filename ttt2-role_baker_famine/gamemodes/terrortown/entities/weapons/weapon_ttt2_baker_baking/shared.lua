@@ -26,8 +26,6 @@ SWEP.Base = "weapon_tttbase"
 SWEP.ViewModel = "models/weapons/c_items/c_bread_cinnamon.mdl"
 SWEP.WorldModel = "models/weapons/c_items/c_bread_cinnamon.mdl"
 
--- local ammoamount = GetConVar("ttt2_role_baker_ammo"):GetInt()
-
 SWEP.Primary.ClipSize = GetConVar("ttt2_role_baker_ammo"):GetInt()
 SWEP.Primary.DefaultClip = GetConVar("ttt2_role_baker_ammo"):GetInt()
 SWEP.Primary.Automatic = true
@@ -36,8 +34,8 @@ SWEP.Primary.Delay = 1
 
 -- This is special equipment
 SWEP.Kind = WEAPON_EQUIP
-SWEP.CanBuy = { } -- only detectives can buy
-SWEP.LimitedStock = true -- only buyable once
+SWEP.CanBuy = { } -- no one can buy
+SWEP.LimitedStock = true -- only buyable once (but no one can buy it)
 
 SWEP.AllowDrop = false
 SWEP.NoSights = true
@@ -78,4 +76,9 @@ function SWEP:Initialize()
     end
 
     return BaseClass.Initialize(self)
+end
+
+--Removes the bread baker on death or drop
+function SWEP:OnDrop()
+	self:Remove()
 end
