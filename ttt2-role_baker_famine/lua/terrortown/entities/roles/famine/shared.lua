@@ -15,7 +15,7 @@ function ROLE:PreInitialize()
     self.preventTraitorAloneCredits = true
     self.preventWin                 = false -- Can he win on his own? true means NO, false means YES
     self.unknownTeam                = false
-	self.isOmniscientRole = true
+	self.isOmniscientRole = true -- see missing in action players & haste time if true
 	
 	-- role cant spawn naturally
 	self.notSelectable = true
@@ -25,9 +25,9 @@ function ROLE:PreInitialize()
     self.conVarData = {
         pct          = 0.15, -- necessary: percentage of getting this role selected (per player)
         maximum      = 1, -- maximum amount of roles in a round
-        minPlayers   = 7, -- minimum amount of players until this role is able to get selected
-        togglable    = true, -- option to toggle a role for a client if possible (F1 menu)
-        random       = 33
+        minPlayers   = 6, -- minimum amount of players until this role is able to get selected
+        togglable    = false, -- option to toggle a role for a client if possible (F1 menu)
+        random       = 0
     }
 end
 
