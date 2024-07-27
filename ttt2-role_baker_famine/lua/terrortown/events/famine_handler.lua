@@ -14,7 +14,7 @@ hook.Add("TTTEndRound", "BakerEndRound", function()
 	BREAD_DATA.amount_eaten = 0
 	BREAD_DATA.starving_players = player.GetAll()
 	BREAD_DATA.famine_exists = false
-	BREAD_DATA.amount_to_famine = GetConVar("ttt2_role_famine_bread_eaten_threshold"):GetInt()
+	BREAD_DATA.amount_to_famine = GetConVar("ttt2_role_baker_bread_eaten_threshold"):GetInt()
 	timer.Stop("ttt2_famine_starve_timer")
 end)
 
@@ -22,7 +22,7 @@ hook.Add("TTTBeginRound", "BakerBeginRound", function()
     BREAD_DATA.amount_eaten = 0
 	BREAD_DATA.starving_players = player.GetAll()
 	BREAD_DATA.famine_exists = false
-	BREAD_DATA.amount_to_famine = GetConVar("ttt2_role_famine_bread_eaten_threshold"):GetInt()
+	BREAD_DATA.amount_to_famine = GetConVar("ttt2_role_baker_bread_eaten_threshold"):GetInt()
 	timer.Stop("ttt2_famine_starve_timer")
 end)
 
