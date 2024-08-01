@@ -5,7 +5,7 @@
 -- ---------------------------------------- --
 BREAD_DATA = {}
 BREAD_DATA.amount_eaten = 0
-BREAD_DATA.amount_to_famine = 5
+BREAD_DATA.amount_to_famine = GetConVar("ttt2_role_baker_bread_eaten_threshold"):GetInt()
 BREAD_DATA.famine_exists = false
 BREAD_DATA.starving_players = {}
 
@@ -24,6 +24,13 @@ hook.Add("TTTBeginRound", "BakerBeginRound", function()
 	BREAD_DATA.famine_exists = false
 	BREAD_DATA.amount_to_famine = GetConVar("ttt2_role_baker_bread_eaten_threshold"):GetInt()
 	timer.Stop("ttt2_famine_starve_timer")
+	--sync to client
+    if SERVER then
+		net.Start("ttt2_role_baker_update")
+		net.WriteUInt(BREAD_DATA.amount_eaten, 16)
+		net.WriteUInt(BREAD_DATA.amount_to_famine, 16)
+		net.Broadcast()
+	end
 end)
 
 -- ---------------------------------------- --
@@ -166,7 +173,7 @@ local function incBreadCounter()
 	--sync to client
     net.Start("ttt2_role_baker_update")
     net.WriteUInt(BREAD_DATA.amount_eaten, 16)
-	BREAD_DATA.amount_to_famine = GetConVar("ttt2_role_famine_bread_eaten_threshold"):GetInt()
+	BREAD_DATA.amount_to_famine = GetConVar("ttt2_role_baker_bread_eaten_threshold"):GetInt()
 	net.WriteUInt(BREAD_DATA.amount_to_famine, 16)
     net.Broadcast()
 

@@ -55,10 +55,7 @@ if SERVER then
 	end
 end
 
---famine convars
-CreateConVar("ttt2_role_famine_bread_spawn_amount", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
-CreateConVar("ttt2_role_famine_starting_health", 175, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
-CreateConVar("ttt2_role_famine_bread_health", 25, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+
 
 --adds convars to F1 Menu
 if CLIENT then

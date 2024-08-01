@@ -42,6 +42,11 @@ SWEP.LimitedStock = true -- only buyable once
 SWEP.AllowDrop = false
 SWEP.NoSights = true
 
+--Removes the bread baker on death or drop
+function SWEP:OnDrop()
+    self:Remove()
+end
+
 ---
 -- @ignore
 function SWEP:PrimaryAttack()

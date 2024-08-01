@@ -46,9 +46,7 @@ if SERVER then
 end
 
 
---Baker convars
-CreateConVar("ttt2_bread_health", 25, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
-CreateConVar("ttt2_role_baker_bread_eaten_threshold", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+
 
 
 --adds convars to F1 Menu
