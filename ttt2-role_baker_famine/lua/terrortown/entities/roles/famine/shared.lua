@@ -51,7 +51,7 @@ if SERVER then
 			ply:SetHealth(100)
 		end
         -- give back original model
-		ply:SetModel( famineOriginalModel )
+		ply:SetModel( self.famineOriginalModel )
 	end
 end
 
