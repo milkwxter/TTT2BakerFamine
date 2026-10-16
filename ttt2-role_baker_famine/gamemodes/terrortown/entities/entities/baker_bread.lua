@@ -86,13 +86,6 @@ else
     -- Early check if client can use the bread
     -- @return bool True to prevent pickup
     -- @realm client
-    function ENT:ClientUse()
-        local client = LocalPlayer()
-
-        if not IsValid(client) or not client:IsPlayer() or not client:IsActive() then
-            return true
-        end
-    end
 
     -- handle looking at bread
     hook.Add("TTTRenderEntityInfo", "HUDDrawTargetIDBread", function(tData)
